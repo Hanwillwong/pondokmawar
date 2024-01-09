@@ -58,8 +58,8 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
         ]);
         $token = $user->createToken('Personal Access Token')->accessToken;
-        return redirect('/api/login');
         // return response()->json(['token' => $token], 201);
+        return redirect('/login');
         // return response()->json(['token' => $token, 'redirect' => '/home'], 201);
     }
 

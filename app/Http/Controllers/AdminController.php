@@ -12,6 +12,16 @@ class AdminController extends Controller
      */
     public function index()
     {
+        $user = user::all();
+
+        return response()->json([
+            'data' => $user,
+            'message' => 'Data produk berhasil diambil',
+        ]);
+    }
+    
+    public function viewindex()
+    {
         return view('pages.admin',[
             "user" => user::all()
         ]);
@@ -79,7 +89,7 @@ class AdminController extends Controller
             ]);
         }
 
-        return redirect('/api/admin')->with('success', 'Data berhasil diperbarui!');
+        return redirect('/admin')->with('success', 'Data berhasil diperbarui!');
     }
 
     /**
@@ -90,6 +100,6 @@ class AdminController extends Controller
         $user = user::find($id);   
         $user->delete();
     
-        return redirect('/api/admin')->with('success','Data Berhasil Dihapus!');
+        return redirect('/admin')->with('success','Data Berhasil Dihapus!');
     }
 }

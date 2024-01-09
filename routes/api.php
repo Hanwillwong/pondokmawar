@@ -37,28 +37,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Route::get('/',[ProductController::class,'index'])->middleware('auth');
 
+Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout']);
-// Route::middleware('auth:api')->group(function () {
-//     Route::post('/logout', [LoginController::class, 'logout']);
-// });
-// Route::middleware('auth:api')->post('/logout', 'LoginController@logout');
-// Route::middleware('auth:api')->group(function () {
-//     Route::post('/logout', 'LoginController@logout');
-// });
 
 Route::get('/register', [RegisterController::class, 'index']);
-Route::post('/register', [RegisterController::class, 'register']);
-
-// Route::get('/product', [ProductController::class, 'index'])->middleware('auth');
 Route::post('/register', [RegisterController::class, 'register']);
 
 Route::get('/product', [ProductController::class, 'index'])->middleware('auth');
 Route::get('/product/create', [ProductController::class, 'create'])->middleware('owneradmin');
 Route::post('/product', [ProductController::class, 'store'])->middleware('owneradmin');
 
-Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->middleware('owneradmin');
+// Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->middleware('owneradmin');
 Route::put('/product/{id}', [ProductController::class, 'update'])->middleware('owneradmin');
 Route::delete('/product/{id}', [ProductController::class, 'destroy'])->middleware('owneradmin');
 
@@ -66,6 +56,6 @@ Route::get('/riwayatharga/{id}', [ProductController::class, 'show'])->middleware
 Route::delete('/riwayatharga/{id}', [RiwayathargaController::class, 'destroy'])->middleware('owneradmin');
 
 Route::get('/admin', [AdminController::class, 'index'])->middleware('owner');
-Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->middleware('owner');
+// Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->middleware('owner');
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->middleware('owner');
 Route::put('/admin/{id}', [AdminController::class, 'update'])->middleware('owner');

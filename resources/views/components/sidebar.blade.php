@@ -22,7 +22,7 @@
           </li> 
         @if (Gate::check('admin') || Gate::check('owner'))
           <li class="sidebar-item">
-            <a class="sidebar-link text-decoration-none" href="/api/product/create" aria-expanded="false">
+            <a class="sidebar-link text-decoration-none" href="/product/create" aria-expanded="false">
               <span>
                 <i class="bi bi-columns-gap"></i>
               </span>
@@ -31,7 +31,7 @@
           </li>
         @endif
           <li class="sidebar-item">
-            <a class="sidebar-link text-decoration-none" href="/api/product" aria-expanded="false">
+            <a class="sidebar-link text-decoration-none" href="/product" aria-expanded="false">
               <span>
                 <i class="bi bi-columns-gap"></i>
               </span>
@@ -68,7 +68,7 @@
             </a>
           </li> --}}
           <li class="sidebar-item">
-            <a class="sidebar-link text-decoration-none" href="/api/admin" aria-expanded="false">
+            <a class="sidebar-link text-decoration-none" href="/admin" aria-expanded="false">
               <span>
                 <i class="bi bi-person-plus"></i>
               </span>

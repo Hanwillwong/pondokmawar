@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Events\HargaProdukUpdated;
+use Laravel\Sanctum\HasApiTokens;
 
 class product extends Model
 {
@@ -27,5 +28,12 @@ class product extends Model
         $this->save();
 
         event(new HargaProdukUpdated($this));
+    }
+
+    public function scopeFilter($query)
+    {
+        return $query->where('nama_barang','like','%' . request('search') . '%');
+            //    ->orwhere('merk','like','%' . request('search') . '%')
+            //    ->orwhere('supplier','like','%' . request('search') . '%');
     }
 }

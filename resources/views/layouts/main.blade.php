@@ -33,9 +33,9 @@
         @include('components.footer')
       </div>
     </div>
-    <script>
+    {{-- <script>
       new DataTable('#example');
-    </script>
+    </script> --}}
     <script src="{{ url('https://code.jquery.com/jquery-3.7.0.js') }}"></script>
     <script src="{{ url('https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js') }}"></script>

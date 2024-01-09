@@ -20,59 +20,47 @@ class LoginController extends Controller
        ]);
     }
 
-    
-
     public function login(Request $request)
     {
-
-        $credentials = $request->validate([
-            'email' => 'required|email:dns',
-            'password'=>'required'
-        ]);
-        if(Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('/api/product');
+        {
+            // Validasi input
+            $credentials = $request->validate([
+                'email' => 'required',
+                'password' => 'required',
+            ]);
+    
+            // Coba melakukan otentikasi
+            if (Auth::attempt($credentials)) {
+                // Jika otentikasi berhasil, buat personal access token
+                $token = $request->user()->createToken('personal-access-token');
+    
+                return response()->json([
+                    'success' => true,
+                    'token' => $token->plainTextToken,
+                ]);
+            } else {
+                // Jika otentikasi gagal
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Invalid credentials',
+                ], 401);
+            }
         }
-        return back()->with('loginError', 'Login Gagal!');
-        // $request->validate([
-        //     'email' => 'required|email',
-        //     'password' => 'required|string',
-        // ]);
-
-        // $credentials = request(['email', 'password']);
-
-        // if (!Auth::attempt($credentials)) {
-        //     return response()->json(['message' => 'Invalid credentials'], 401);
-        // }
-
-        // $user = $request->user();
-        // $token = $user->createToken('Personal Access Token')->accessToken;
-        // $request->session()->regenerate();
-        // return redirect('api/product');
-        // Jika login berhasil, kirimkan token dan redirect ke halaman home
-        // if(auth()) {
-        //     dd($request);
-        //     return response()->json(['token' => $user, 'redirect' => 'api/product'], 200);
-        //     return redirect('/api/product');
-        // }
-        // return Redirect::to('/api/product');
     }
     
     public function logout(Request $request)
     {
-        // $request->user()->token()->revoke();
         Auth::logout();
-
-        // return response()->json([
-        //     'message' => 'Successfully logged out',
-            
-        //     // 'redirect' => '/login', 
-        //     // Redirect ke halaman login
-        // ]);
-        return Redirect::to('/api/login');
+        return Redirect::to('/login');
     }
 
+    // public function logout(Request $request)
+    // {
+    //     $request->user()->tokens()->delete();
+
+    //     return response()->json(['message' => 'Logged out successfully']);
+    // }
+        
     // public function authenticate(Request $request)
     // {
     //     $credentials = $request->only('email', 'password');

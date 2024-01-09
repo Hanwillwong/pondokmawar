@@ -7,7 +7,7 @@
     </div>
 @endif
 
-<a href="/api/product" class="btn btn-primary mb-2">Back</a>
+<a href="/product" class="btn btn-primary mb-2">Back</a>
 
 <div class="row">
     <div class="col-lg-12 d-flex align-items-stretch">
@@ -21,15 +21,15 @@
         <div class="card-body">
             <div class="form-group">
                 <label for="nama_barang">Nama Barang</label>
-                <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Nama Barang" value="{{ old('nama_barang', $product->nama_barang) }}">
+                <input type="text" class="form-control" id="nama_barang @error ('nama_barang') is-invalid @enderror" name="nama_barang" placeholder="Nama Barang" value="{{ old('nama_barang', $product->nama_barang) }}">
             </div>
             <div class="form-group mt-3">
-                <label for="nama_barang">Merk</label>
-                <input type="text" class="form-control" id="merk" name="merk" placeholder="Merk" value="{{ old('merk', $product->merk) }}">
+                <label for="merk">Merk</label>
+                <input type="text" class="form-control @error ('merk') is-invalid @enderror" id="merk" name="merk" placeholder="Merk" value="{{ old('merk', $product->merk) }}">
             </div>
             <div class="form-group mt-3">
                 <label for="supplier">Supplier</label>
-                <input type="text" class="form-control" name="supplier" id="supplier" placeholder="Supplier" value="{{ old('supplier', $product->supplier) }}">
+                <input type="text" class="form-control @error ('suppluer') is-invalid @enderror" name="supplier" id="supplier" placeholder="Supplier" value="{{ old('supplier', $product->supplier) }}">
             </div>
             <div class="form-group mt-3">
                 <label for="satuan">Satuan</label>
@@ -41,11 +41,11 @@
             </div>
             <div class="form-group mt-3">
                 <label for="harga_beli">Harga Beli</label>
-                <input type="number" class="form-control" name="harga_beli" id="harga_beli" placeholder="Harga Beli" value="{{ old('harga_beli', $product->harga_beli) }}">
+                <input type="number" class="form-control @error ('harga_beli') is-invalid @enderror" name="harga_beli" id="harga_beli" placeholder="Harga Beli" value="{{ old('harga_beli', $product->harga_beli) }}">
             </div>
             <div class="form-group mt-3">
                 <label for="harga_jual">Harga Jual</label>
-                <input type="number" class="form-control" name="harga_jual" id="harga_jual" placeholder="Harga Jual" value="{{ old('harga_jual', $product->harga_jual) }}">
+                <input type="number" class="form-control @error ('harga_jual') is-invalid @enderror" name="harga_jual" id="harga_jual" placeholder="Harga Jual" value="{{ old('harga_jual', $product->harga_jual) }}">
             </div>
             
         </div>

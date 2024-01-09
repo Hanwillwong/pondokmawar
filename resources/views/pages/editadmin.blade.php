@@ -7,7 +7,7 @@
     </div>
 @endif
 
-<a href="/api/admin" class="btn btn-primary mb-2">Back</a>
+<a href="/admin" class="btn btn-primary mb-2">Back</a>
 
 <div class="row">
     <div class="col-lg-12 d-flex align-items-stretch">
@@ -33,7 +33,7 @@
             </div>
             <div class="form-group mt-3">
                 <label for="user_type">User Type</label>
-                <select class="custom-select form-control" name="user_type" id="user_type" {{ $user->user_type == 'owner' ? 'disabled' : '' }}>
+                <select class="custom-select form-control" name="user_type" id="user_type">
                     @if ($user->user_type == 'owner')
                     <option value="owner" {{ $user->user_type == 'owner' ? 'selected' : '' }}>Owner</option>
                     @else

@@ -34,13 +34,13 @@
                      <h2>Login</h2>
                      {{-- <p>We are happy to have you back.</p> --}}
                 </div>
-            <form action="{{ url('/api/login') }}" method="post">
+            <form id="loginForm" {{--action="{{ url('/api/login') }}" method="post" --}}>
                 @csrf
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Email address" name="email" required>
+                    <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Email address" id="email" name="email" required>
                 </div>
                 <div class="input-group mb-1">
-                    <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" name="password" required>
+                    <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" id="password" name="password" required>
                 </div>
                 <div class="input-group mb-5 d-flex justify-content-between">
                     <div class="form-check">
@@ -52,17 +52,64 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <button class="btn btn-lg btn-primary w-100 fs-6">Login</button>
+                    <button class="btn btn-lg btn-primary w-100 fs-6" onclick="login()">Login</button>
                 </div>
             </form>
                 <div class="row">
-                    <small>Don't have account? <a href="{{ url('/api/register') }}">Register</a></small>
+                    <small>Don't have account? <a href="{{ url('/register') }}">Register</a></small>
                 </div>
           </div>
        </div> 
 
       </div>
     </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+
+        function login(event) {
+            // Cegah kejadian default formulir
+            event.preventDefault();
+
+            console.log("test");
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Jika otentikasi berhasil, token dapat diambil dari data
+                    const token = data.token;
+
+                    // Lakukan sesuatu setelah berhasil login, misalnya, alihkan ke halaman lain
+                    window.location.href = '/product';
+                } else {
+                    // Tangani kesalahan, misalnya, tampilkan pesan kesalahan
+                    console.error('Login error:', data.error);
+                    window.location.href = '/login';
+                }
+            })
+            .catch(error => {
+                // Tangani kesalahan, misalnya, tampilkan pesan kesalahan
+                console.error('Login error:', error.message);
+            });
+        }
+
+        // Tambahkan event listener untuk menanggapi submit formulir
+        form.addEventListener('submit', login);
+
+    </script>
 
 </body>
 </html>

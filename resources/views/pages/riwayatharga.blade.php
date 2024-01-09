@@ -10,7 +10,7 @@
     </div>
 @endif
 
-<a href="/api/product" class="btn btn-primary mb-2">Back</a>
+<a href="/product" class="btn btn-primary mb-2">Back</a>
 
 <form class="d-flex">
     <input class="form-control" type="search" placeholder="&#xF002;  Search" aria-label="Search" style="font-family: FontAwesome;">

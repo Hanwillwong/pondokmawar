@@ -21,15 +21,15 @@
         <div class="card-body">
             <div class="form-group">
                 <label for="nama_barang">Nama Barang</label>
-                <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Nama Barang">
+                <input type="text" class="form-control @error ('nama_barang') is-invalid @enderror" id="nama_barang" name="nama_barang" placeholder="Nama Barang" value="{{ old('nama_barang') }}">
             </div>
             <div class="form-group mt-3">
-                <label for="nama_barang">Merk</label>
-                <input type="text" class="form-control" id="merk" name="merk" placeholder="Merk">
+                <label for="merk">Merk</label>
+                <input type="text" class="form-control @error ('merk') is-invalid @enderror" id="merk" name="merk" placeholder="Merk" value="{{ old('merk') }}">
             </div>
             <div class="form-group mt-3">
                 <label for="supplier">Supplier</label>
-                <input type="text" class="form-control" name="supplier" id="supplier" placeholder="Supplier">
+                <input type="text" class="form-control @error ('supplier') is-invalid @enderror" name="supplier" id="supplier" placeholder="Supplier" value="{{ old('supplier') }}">
             </div>
             <div class="form-group mt-3">
                 <label for="satuan">Satuan</label>
@@ -40,12 +40,12 @@
                 </select>
             </div>
             <div class="form-group mt-3">
-                <label for="supplier">Harga Beli</label>
-                <input type="number" class="form-control" name="harga_beli" id="harga_beli" placeholder="Harga Beli">
+                <label for="harga_beli">Harga Beli</label>
+                <input type="number" class="form-control @error ('harga_beli') is-invalid @enderror" name="harga_beli" id="harga_beli" placeholder="Harga Beli" value="{{ old('harga_beli') }}">
             </div>
             <div class="form-group mt-3">
-                <label for="supplier">Harga Jual</label>
-                <input type="number" class="form-control" name="harga_jual" id="harga_jual" placeholder="Harga Jual">
+                <label for="harga_jual">Harga Jual</label>
+                <input type="number" class="form-control @error ('harga_jual') is-invalid @enderror" name="harga_jual" id="harga_jual" placeholder="Harga Jual" value="{{ old('harga_jual') }}">
             </div>
             
         </div>

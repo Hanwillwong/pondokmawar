@@ -59,7 +59,7 @@
                 </div>
             </form>
                 <div class="row">
-                    <small>Already have account? <a href="/api/login">Login</a></small>
+                    <small>Already have account? <a href="/login">Login</a></small>
                 </div>
           </div>
        </div> 

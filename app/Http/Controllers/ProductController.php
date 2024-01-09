@@ -18,20 +18,51 @@ class ProductController extends Controller
 
     // protected $middleware = ['admin', 'owner'];
 
-    public function index()
+    // public function index()
+    // {
+    //     // return view('pages.product',[
+    //     //     "product" => Product::all()
+
+    //     // ]);
+    //     $products = Product::all();
+
+    //     return response()->json([
+    //         'data' => $products,
+    //         'message' => 'Data produk berhasil diambil',
+    //     ]);
+    // }
+
+    public function index(Request $request)
+        {
+            $search = $request->query('search'); // Ambil nilai pencarian dari query string
+
+            // Lakukan proses pencarian sesuai kebutuhan
+            $products = Product::when($search, function ($query) use ($search) {
+                return $query->where('nama_barang', 'like', '%' . $search . '%');
+            })->get();
+
+            return response()->json([
+                'data' => $products,
+                'message' => 'Data produk berhasil diambil',
+            ]);
+        }
+
+
+    public function viewindex(Request $request)
     {
-        // if(!Auth::check()){
-        //     return redirect('api/login');
-        // }
-        // $this->authorize('admin');
-        return view('pages.product',[
-            "product" => Product::all()
+        // return view('pages.product', [
+        //     // "products" => product::latest()->filter()->paginate(10)
+            
+        // ]);
+            $search = $request->query('search'); // Ambil nilai pencarian dari query string
 
-        ]);
-        // $product = Http::get('http://localhost:8000/api/product')->json();
+            // Lakukan proses pencarian sesuai kebutuhan
 
-        // return view('pages.product', ['product' => $product]);
+            return view('pages.product',[
+                "product" => product::filter()
+            ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -48,7 +79,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData =  $request->validate([
+        $validatedData = $request->validate([
             'nama_barang' => 'required',
             'satuan' => 'required',
             'supplier' => 'required',
@@ -56,8 +87,15 @@ class ProductController extends Controller
             'harga_beli' => 'required',
             'harga_jual' => 'required'
         ]);
-        product::create($validatedData);
-        return redirect('/api/product')->with('success', 'Data berhasil dibuat!');
+    
+        // Membuat data produk baru
+        $product = Product::create($validatedData);
+    
+        // Menyebabkan event HargaProdukUpdated dijalankan dengan data produk yang baru dibuat
+        event(new HargaProdukUpdated($product));
+    
+        // Redirect ke halaman produk dengan pesan sukses
+        return redirect('/product')->with('success', 'Data berhasil dibuat!');
     }
 
     /**
@@ -66,8 +104,8 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        $riwayatHarga = $product->riwayatHarga; // Ambil data riwayat harga untuk produk ini
-    
+        $riwayatHarga = $product->riwayatHarga()->orderBy('created_at', 'desc')->get(); // Urutkan berdasarkan created_at secara descending
+        
         return view('pages.riwayatharga', compact('product', 'riwayatHarga'));
     }
 
@@ -104,7 +142,7 @@ class ProductController extends Controller
         $product->update($validatedData);
         }
 
-       return redirect('/api/product')->with('success', 'Data berhasil diperbarui!');
+       return redirect('/product')->with('success', 'Data berhasil diperbarui!');
 
         // Product::where('id', $id)->update($validatedData);
         // event(new \App\Events\HargaProdukUpdated($product));        
@@ -119,7 +157,7 @@ class ProductController extends Controller
         $product = Product::find($id);   
         $product->delete();
     
-        return redirect('/api/product')->with('success','Data Berhasil Dihapus!');
+        return redirect('/product')->with('success','Data Berhasil Dihapus!');
     }
 
 }

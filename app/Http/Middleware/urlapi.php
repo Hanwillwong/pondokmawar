@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class isOwnerAdmin
+class urlapi
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,9 @@ class isOwnerAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!auth()->check() || auth()->user()->user_type == 'owner' || auth()->user()->user_type == 'admin'){
-            return $next($request);
+        if (strpos($request->url(), '/api/') !== false) {
+            return back()->with('error', 'Anda tidak diizinkan mengakses URL API langsung.');
         }
-        abort(403);
+        return $next($request);
     }
 }

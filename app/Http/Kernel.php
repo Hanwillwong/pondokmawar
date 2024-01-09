@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\isAdmin::class,
         'owner' => \App\Http\Middleware\isOwner::class,
         'owneradmin' => \App\Http\Middleware\isOwnerAdmin::class,
+        'urlapi' => \App\Http\Middleware\urlapi::class,
     ];
 }
