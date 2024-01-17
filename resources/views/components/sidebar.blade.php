@@ -26,7 +26,7 @@
               <span>
                 <i class="bi bi-columns-gap"></i>
               </span>
-              <span class="hide-menu">Add Product</span>
+              <span class="hide-menu">Tambah Barang</span>
             </a>
           </li>
         @endif
@@ -35,7 +35,7 @@
               <span>
                 <i class="bi bi-columns-gap"></i>
               </span>
-              <span class="hide-menu">List Product</span>
+              <span class="hide-menu">List Barang</span>
             </a>
           </li>
           @if (Gate::check('owner'))
