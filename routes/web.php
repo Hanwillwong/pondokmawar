@@ -21,6 +21,7 @@ use App\Http\Controllers\RiwayathargaController;
 // Route::resource('/product', ProductController::class);
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::get('/register', [RegisterController::class, 'index']);

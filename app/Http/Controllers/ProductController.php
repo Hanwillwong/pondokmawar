@@ -38,7 +38,9 @@ class ProductController extends Controller
 
             // Lakukan proses pencarian sesuai kebutuhan
             $products = Product::when($search, function ($query) use ($search) {
-                return $query->where('nama_barang', 'like', '%' . $search . '%');
+                return $query->where('nama_barang', 'like', '%' . $search . '%')
+                            ->orwhere('supplier', 'like', '%' . $search . '%')
+                            ->orwhere('merk', 'like', '%' . $search . '%');
             })->get();
 
             return response()->json([
@@ -103,11 +105,42 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::findOrFail($id);
-        $riwayatHarga = $product->riwayatHarga()->orderBy('created_at', 'desc')->get(); // Urutkan berdasarkan created_at secara descending
-        
-        return view('pages.riwayatharga', compact('product', 'riwayatHarga'));
+        $product = Product::find($id);
+
+        if (!$product) {
+            // Tambahkan log atau kembalikan respons sesuai kebutuhan Anda
+            return abort(404); // Contoh: Kembalikan 404 jika produk tidak ditemukan
+        }
+
+        $riwayatHarga = $product->riwayatHarga()
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->map(function ($riwayat) {
+            $riwayat->formatted_created_at = \Carbon\Carbon::parse($riwayat->created_at)->format('j F y'); // Sesuaikan format sesuai keinginan Anda
+            return $riwayat;
+        });
+
+
+        $harga_jual = [];
+        foreach ($riwayatHarga as $riwayat) {
+            $harga_jual[] = $riwayat->harga_jual;
+        }
+
+        $harga_beli = [];
+        foreach ($riwayatHarga as $riwayat) {
+            $harga_beli[] = $riwayat->harga_beli;
+        }
+
+        $tanggal = [];
+        foreach ($riwayatHarga as $riwayat) {
+            $formattedDate = \Carbon\Carbon::parse($riwayat->created_at)->format('j F y'); // Ubah format sesuai keinginan Anda
+            $tanggal[] = $formattedDate;
+        }
+
+
+        return view('pages.riwayatharga', compact('product', 'riwayatHarga', 'harga_jual','harga_beli','tanggal'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

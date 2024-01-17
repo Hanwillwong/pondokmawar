@@ -72,7 +72,7 @@
               <span>
                 <i class="bi bi-person-plus"></i>
               </span>
-              <span class="hide-menu">Admin</span>
+              <span class="hide-menu">User</span>
             </a>
           </li>
           @endif

@@ -18,8 +18,6 @@
 <div class="row mt-3">
     <div class="col-lg-12 d-flex align-items-stretch">
       <div class="card w-100 table-responsive-md">
-
-        
         <table class="table table-striped text-center mx-auto" id="productTable">
             <thead>
                 <tr>

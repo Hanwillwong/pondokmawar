@@ -12,10 +12,14 @@
 
 <a href="/product" class="btn btn-primary mb-2">Back</a>
 
-<form class="d-flex">
+<div class="panel">
+    <div id="chartharga"></div>
+</div>
+
+{{-- <form class="d-flex">
     <input class="form-control" type="search" placeholder="&#xF002;  Search" aria-label="Search" style="font-family: FontAwesome;">
-    {{-- <button class="btn btn-outline-success" type="submit">Search</button> --}}
-</form>
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form> --}}
 
 <div class="row mt-3">
     <div class="col-lg-12 d-flex align-items-stretch">
@@ -30,29 +34,76 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($riwayatHarga  as $riwayat)
-                <tr>
-                    <td>{{ $riwayat->created_at }}</td>
-                    <td>{{ $riwayat->harga_beli }}</td>
-                    <td>{{ $riwayat->harga_jual }}</td>
-                    {{-- <td>
-                        <a href="" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
-                        <a href="" class="btn btn-danger"><i class="bi bi-trash"></i></a>
-                        <a href="" class="btn btn-primary"><i class="bi bi-journal-text"></i></a>
-                    </td> --}}
-                    <td>
-                    <form action="/api/riwayatharga/{{ $riwayat->id }}" method="POST" class="d-inline">
-                        @method('delete')
-                        @csrf
-                        <button class="btn btn-danger"  onclick="return confirm('Yakin akan menghapus Data?')"><i class="bi bi-trash"></i></button>
-                    </form>
-                    </td>
-                </tr>
+                @foreach ($riwayatHarga as $riwayatItem)
+                    <tr>
+                        <td>{{ $riwayatItem->formatted_created_at }}</td>
+                        <td>{{ $riwayatItem->harga_beli }}</td>
+                        <td>{{ $riwayatItem->harga_jual }}</td>
+                        <td>
+                            <form action="/api/riwayatharga/{{ $riwayatItem->id }}" method="POST" class="d-inline">
+                                @method('delete')
+                                @csrf
+                                <button class="btn btn-danger"  onclick="return confirm('Yakin akan menghapus Data?')"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
       </div>
     </div>
 </div>
+@endsection
 
+
+@section('chart')
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script>
+    Highcharts.chart('chartharga', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Riwayat Perubahan Harga',
+        align: 'center'
+    },
+    subtitle: {
+        text:
+            '',
+        align: 'left'
+    },
+    xAxis: {
+        categories: {!!json_encode($tanggal)!!},
+        crosshair: true,
+        accessibility: {
+            description: 'Tanggal'
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Harga'
+        }
+    },
+    tooltip: {
+        valueSuffix: ''
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [
+        {
+            name: 'Harga Beli',
+            data: {!!json_encode($harga_beli)!!}
+        },
+        {
+            name: 'Harga Jual',
+            data: {!!json_encode($harga_jual)!!}
+        }
+    ]
+});
+</script>
 @endsection
