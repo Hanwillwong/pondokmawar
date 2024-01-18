@@ -108,6 +108,32 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
+            return abort(404);
+        }
+
+        $riwayatHarga = $product->riwayatHarga()
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($riwayat) {
+                $riwayat->formatted_created_at = \Carbon\Carbon::parse($riwayat->created_at)->format('j F y');
+                return $riwayat;
+            });
+
+        return response()->json([
+            'data' => [
+                'product' => $product,
+                'riwayatHarga' => $riwayatHarga,
+            ],
+            'message' => 'Data riwayat harga berhasil diambil',
+        ]);
+    }
+
+
+    public function viewshow($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
             // Tambahkan log atau kembalikan respons sesuai kebutuhan Anda
             return abort(404); // Contoh: Kembalikan 404 jika produk tidak ditemukan
         }
@@ -136,7 +162,6 @@ class ProductController extends Controller
             $formattedDate = \Carbon\Carbon::parse($riwayat->created_at)->format('j F y'); // Ubah format sesuai keinginan Anda
             $tanggal[] = $formattedDate;
         }
-
 
         return view('pages.riwayatharga', compact('product', 'riwayatHarga', 'harga_jual','harga_beli','tanggal'));
     }

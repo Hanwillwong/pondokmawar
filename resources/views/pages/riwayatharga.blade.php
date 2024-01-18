@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($riwayatHarga as $riwayatItem)
+                {{-- @foreach ($riwayatHarga as $riwayatItem)
                     <tr>
                         <td>{{ $riwayatItem->formatted_created_at }}</td>
                         <td>{{ $riwayatItem->harga_beli }}</td>
@@ -47,12 +47,55 @@
                             </form>
                         </td>
                     </tr>
-                @endforeach
+                @endforeach --}}
             </tbody>
         </table>
       </div>
     </div>
 </div>
+
+<script>
+    // api url
+    let api_url = "/api/riwayatharga/{{ $product->id }}";
+    
+    // Defining async function
+    async function getapi(url) {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        show(data.data);
+        console.log(data);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+    getapi(api_url);
+
+    function show(apiData) {
+        let tab = "";
+        if (apiData.riwayatHarga && apiData.riwayatHarga.length > 0) {
+            for (let item of apiData.riwayatHarga) {
+                tab += `<tr> 
+                    <td>${item.formatted_created_at}</td>
+                    <td>${item.harga_beli}</td>
+                    <td>${item.harga_jual}</td>
+                    <td>
+                        <form action="/api/riwayatharga/${item.id}" method="POST" class="d-inline">
+                            @method('delete')
+                            @csrf
+                            <button class="btn btn-danger" onclick="return confirm('Yakin akan menghapus Data?')"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>`;
+            }
+        } else {
+            tab = "<tr><td colspan='4'>Tidak ada riwayat harga</td></tr>";
+        }
+        document.getElementsByTagName("tbody")[0].innerHTML = tab;
+    }
+
+</script>
 @endsection
 
 
