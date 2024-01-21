@@ -31,7 +31,7 @@ Route::get('/product', [ProductController::class, 'viewindex'])->middleware('aut
 
 Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->middleware('owneradmin');
 
-Route::get('/riwayatharga/{id}', [ProductController::class, 'viewshow'])->middleware('owneradmin');
+Route::get('/riwayatharga/{id}', [ProductController::class, 'viewshow'])->middleware('owner');
 
 Route::get('/admin', [AdminController::class, 'viewindex'])->middleware('owner');
 Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->middleware('owner');

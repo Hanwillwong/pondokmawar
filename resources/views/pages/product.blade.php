@@ -110,9 +110,11 @@
                         <i class="bi bi-trash"></i>
                         </button>
                     </form>
-                    <a href="/riwayatharga/${item.id}" class="btn btn-primary">
-                        <i class="bi bi-journal-text"></i>
-                    </a>
+                        @if (Gate::check('owner'))
+                        <a href="/riwayatharga/${item.id}" class="btn btn-primary">
+                            <i class="bi bi-journal-text"></i>
+                        </a>
+                        @endif
                 </td>		 
                 @endif
             </tr>`;

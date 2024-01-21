@@ -51,8 +51,8 @@ Route::post('/product', [ProductController::class, 'store'])->middleware('ownera
 Route::put('/product/{id}', [ProductController::class, 'update'])->middleware('owneradmin');
 Route::delete('/product/{id}', [ProductController::class, 'destroy'])->middleware('owneradmin');
 
-Route::get('/riwayatharga/{id}', [ProductController::class, 'show'])->middleware('owneradmin');
-Route::delete('/riwayatharga/{id}', [RiwayathargaController::class, 'destroy'])->middleware('owneradmin');
+Route::get('/riwayatharga/{id}', [ProductController::class, 'show'])->middleware('owner');
+Route::delete('/riwayatharga/{id}', [RiwayathargaController::class, 'destroy'])->middleware('owner');
 
 Route::get('/admin', [AdminController::class, 'index'])->middleware('owner');
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->middleware('owner');
