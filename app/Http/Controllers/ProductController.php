@@ -16,38 +16,22 @@ class ProductController extends Controller
      * Display a listing of the resource.
      */
 
-    // protected $middleware = ['admin', 'owner'];
-
-    // public function index()
-    // {
-    //     // return view('pages.product',[
-    //     //     "product" => Product::all()
-
-    //     // ]);
-    //     $products = Product::all();
-
-    //     return response()->json([
-    //         'data' => $products,
-    //         'message' => 'Data produk berhasil diambil',
-    //     ]);
-    // }
-
     public function index(Request $request)
-        {
-            $search = $request->query('search'); // Ambil nilai pencarian dari query string
+    {
+        $search = $request->query('search'); // Ambil nilai pencarian dari query string
 
-            // Lakukan proses pencarian sesuai kebutuhan
-            $products = Product::when($search, function ($query) use ($search) {
-                return $query->where('nama_barang', 'like', '%' . $search . '%')
-                            ->orwhere('supplier', 'like', '%' . $search . '%')
-                            ->orwhere('merk', 'like', '%' . $search . '%');
-            })->get();
+        // Lakukan proses pencarian sesuai kebutuhan
+        $products = Product::when($search, function ($query) use ($search) {
+            return $query->where('nama_barang', 'like', '%' . $search . '%')
+                        ->orwhere('supplier', 'like', '%' . $search . '%')
+                        ->orwhere('merk', 'like', '%' . $search . '%');
+        })->get();
 
-            return response()->json([
-                'data' => $products,
-                'message' => 'Data produk berhasil diambil',
-            ]);
-        }
+        return response()->json([
+            'data' => $products,
+            'message' => 'Data produk berhasil diambil',
+        ]);
+    }
 
 
     public function viewindex(Request $request)
@@ -89,16 +73,25 @@ class ProductController extends Controller
             'harga_beli' => 'required',
             'harga_jual' => 'required'
         ]);
-    
+
         // Membuat data produk baru
         $product = Product::create($validatedData);
-    
+
         // Menyebabkan event HargaProdukUpdated dijalankan dengan data produk yang baru dibuat
         event(new HargaProdukUpdated($product));
-    
-        // Redirect ke halaman produk dengan pesan sukses
+
+        // Jika request berasal dari API (dengan header Accept: application/json), kirim respons JSON
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Data berhasil dibuat!',
+                'data' => $product,
+            ]);
+        }
+
+        // Jika request berasal dari antarmuka pengguna (UI), redirect ke '/product' dengan pesan
         return redirect('/product')->with('success', 'Data berhasil dibuat!');
     }
+
 
     /**
      * Display the specified resource.
@@ -134,8 +127,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
-            // Tambahkan log atau kembalikan respons sesuai kebutuhan Anda
-            return abort(404); // Contoh: Kembalikan 404 jika produk tidak ditemukan
+            return abort(404);
         }
 
         $riwayatHarga = $product->riwayatHarga()
@@ -170,7 +162,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Request $request ,$id)
     {
         $product = Product::find($id);
         return view('pages.editproduct', compact('product'));
@@ -200,21 +192,29 @@ class ProductController extends Controller
         $product->update($validatedData);
         }
 
-       return redirect('/product')->with('success', 'Data berhasil diperbarui!');
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Data berhasil diubah!',
+                'data' => $product,
+            ]);
+        }
 
-        // Product::where('id', $id)->update($validatedData);
-        // event(new \App\Events\HargaProdukUpdated($product));        
-        // return redirect('/api/product')->with('success', 'Data berhasil diperbarui!');
+       return redirect('/product')->with('success', 'Data berhasil diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $product = Product::find($id);   
         $product->delete();
     
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Data berhasil dihapus!',
+            ]);
+        }
         return redirect('/product')->with('success','Data Berhasil Dihapus!');
     }
 

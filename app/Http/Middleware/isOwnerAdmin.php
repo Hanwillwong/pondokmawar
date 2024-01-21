@@ -14,10 +14,10 @@ class isOwnerAdmin
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {
-        if(!auth()->check() || auth()->user()->user_type == 'owner' || auth()->user()->user_type == 'admin'){
-            return $next($request);
+    {   
+        if(!auth()->check() || auth()->user()->user_type !== 'owner' && auth()->user()->user_type !== 'admin'){
+            abort(403);
         }
-        abort(403);
+        return $next($request);
     }
 }

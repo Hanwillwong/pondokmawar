@@ -13,7 +13,7 @@
        <div class=" rounded-5 p-3 bg-white box-area">        
         <div class="row">
             <div class="col-12">
-                @if (session()->has('sukses'))
+                {{-- @if (session()->has('sukses'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('sukses') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -25,7 +25,8 @@
                         {{ session('loginError') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                @endif
+                @endif --}}
+                <div id="loginError" class="alert alert-danger" style="display: none;"></div>
             </div>
         </div>
        <div class="col-md-12">
@@ -66,49 +67,41 @@
 
     <script>
         const form = document.getElementById('loginForm');
+    const errorDiv = document.getElementById('loginError');
 
-        function login(event) {
-            // Cegah kejadian default formulir
-            event.preventDefault();
+    function login(event) {
+        event.preventDefault();
 
-            console.log("test");
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const token = data.token;
+                window.location.href = '/product';
+            } else {
+                // Tampilkan pesan kesalahan di dalam elemen <div>
+                errorDiv.style.display = 'block';
+                errorDiv.innerText = data.error;
+            }
+        })
+        .catch(error => {
+            console.error('Login error:', error.message);
+        });
+    }
 
-            fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Jika otentikasi berhasil, token dapat diambil dari data
-                    const token = data.token;
-
-                    // Lakukan sesuatu setelah berhasil login, misalnya, alihkan ke halaman lain
-                    window.location.href = '/product';
-                } else {
-                    // Tangani kesalahan, misalnya, tampilkan pesan kesalahan
-                    console.error('Login error:', data.error);
-                    window.location.href = '/login';
-                }
-            })
-            .catch(error => {
-                // Tangani kesalahan, misalnya, tampilkan pesan kesalahan
-                console.error('Login error:', error.message);
-            });
-        }
-
-        // Tambahkan event listener untuk menanggapi submit formulir
-        form.addEventListener('submit', login);
-
+    form.addEventListener('submit', login);
     </script>
 
 </body>

@@ -22,29 +22,27 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        {
-            // Validasi input
-            $credentials = $request->validate([
-                'email' => 'required',
-                'password' => 'required',
+        // Validasi input
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // Coba melakukan otentikasi
+        if (Auth::attempt($credentials)) {
+            // Jika otentikasi berhasil, buat personal access token
+            $token = $request->user()->createToken('personal-access-token');
+
+            return response()->json([
+                'success' => true,
+                'token' => $token->plainTextToken,
             ]);
-    
-            // Coba melakukan otentikasi
-            if (Auth::attempt($credentials)) {
-                // Jika otentikasi berhasil, buat personal access token
-                $token = $request->user()->createToken('personal-access-token');
-    
-                return response()->json([
-                    'success' => true,
-                    'token' => $token->plainTextToken,
-                ]);
-            } else {
-                // Jika otentikasi gagal
-                return response()->json([
-                    'success' => false,
-                    'error' => 'Invalid credentials',
-                ], 401);
-            }
+        } else {
+            // Jika otentikasi gagal, kirim pesan kesalahan
+            return response()->json([
+                'success' => false,
+                'error' => 'Email atau Password salah',
+            ], 401);
         }
     }
     

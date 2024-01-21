@@ -7,13 +7,13 @@
     </div>
 @endif
 
-<a href="/admin" class="btn btn-primary mb-2">Back</a>
+<a href="/admin" class="btn btn-primary mb-2">Kembali</a>
 
 <div class="row">
     <div class="col-lg-12 d-flex align-items-stretch">
       <div class="card w-100">
         <div class="card-header">
-            <h3 class="card-title mt-2">Edit Admin</h3>
+            <h3 class="card-title mt-2">Edit User</h3>
         </div>
         <form action="/api/admin/{{ $user->id }}" method="POST">
         @method('put')

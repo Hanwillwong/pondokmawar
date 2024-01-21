@@ -48,7 +48,6 @@ Route::get('/product', [ProductController::class, 'index'])->middleware('auth');
 Route::get('/product/create', [ProductController::class, 'create'])->middleware('owneradmin');
 Route::post('/product', [ProductController::class, 'store'])->middleware('owneradmin');
 
-// Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->middleware('owneradmin');
 Route::put('/product/{id}', [ProductController::class, 'update'])->middleware('owneradmin');
 Route::delete('/product/{id}', [ProductController::class, 'destroy'])->middleware('owneradmin');
 
@@ -56,6 +55,5 @@ Route::get('/riwayatharga/{id}', [ProductController::class, 'show'])->middleware
 Route::delete('/riwayatharga/{id}', [RiwayathargaController::class, 'destroy'])->middleware('owneradmin');
 
 Route::get('/admin', [AdminController::class, 'index'])->middleware('owner');
-// Route::get('/admin/{id}/edit', [AdminController::class, 'edit'])->middleware('owner');
 Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->middleware('owner');
 Route::put('/admin/{id}', [AdminController::class, 'update'])->middleware('owner');

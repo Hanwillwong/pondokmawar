@@ -106,9 +106,13 @@
                     <form action="/api/product/${item.id}" method="POST" class="d-inline">
                         @method('delete')
                         @csrf
-                        <button class="btn btn-danger" onclick="return confirm('Yakin akan menghapus Data?')"><i class="bi bi-trash"></i></button>
+                        <button class="btn btn-danger" onclick="return confirm('Yakin akan menghapus Data?')">
+                        <i class="bi bi-trash"></i>
+                        </button>
                     </form>
-                    <a href="/riwayatharga/${item.id}" class="btn btn-primary"><i class="bi bi-journal-text"></i></a>
+                    <a href="/riwayatharga/${item.id}" class="btn btn-primary">
+                        <i class="bi bi-journal-text"></i>
+                    </a>
                 </td>		 
                 @endif
             </tr>`;

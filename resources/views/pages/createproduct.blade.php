@@ -14,7 +14,7 @@
     <div class="col-lg-12 d-flex align-items-stretch">
       <div class="card w-100">
         <div class="card-header">
-            <h3 class="card-title mt-2">Tambah Product</h3>
+            <h3 class="card-title mt-2">Tambah Barang</h3>
         </div>
         <form action="/api/product" method="POST">
         @csrf

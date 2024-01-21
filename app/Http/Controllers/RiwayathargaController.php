@@ -58,11 +58,15 @@ class RiwayathargaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $riwayatharga = riwayatharga::find($id);   
         $riwayatharga->delete();
-    
-        return back()->with('success','Data Berhasil Dihapus!');
+        // if ($request->wantsJson()) {
+        // }
+        return response()->json([
+            'message' => 'Data berhasil dihapus!',
+        ]);
+        // return back()->with('success','Data Berhasil Dihapus!');
     }
 }

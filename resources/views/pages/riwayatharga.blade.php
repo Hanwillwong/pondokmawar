@@ -10,7 +10,7 @@
     </div>
 @endif
 
-<a href="/product" class="btn btn-primary mb-2">Back</a>
+<a href="/product" class="btn btn-primary mb-2">Kembali</a>
 
 <div class="panel">
     <div id="chartharga"></div>
@@ -27,7 +27,7 @@
         <table class="table table-striped text-center mx-auto" id="example">
             <thead>
                 <tr>
-                    <td>Tanggal & Waktu</td>
+                    <td>Tanggal</td>
                     <td>Harga Beli</td>
                     <td>Harga Jual</td>
                     <td colspan="" class="text">Action</td>
