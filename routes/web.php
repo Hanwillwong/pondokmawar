@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RiwayathargaController;
+use App\Http\Controllers\SatuanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,12 @@ Route::get('/register', [RegisterController::class, 'index']);
 Route::get('/product/create', [ProductController::class, 'create'])->middleware('owneradmin');
 Route::get('/product', [ProductController::class, 'viewindex'])->middleware('auth');
 
+Route::get('/satuan/create', [SatuanController::class, 'create'])->middleware('owneradmin');
+Route::get('/satuan', [SatuanController::class, 'viewindex'])->middleware('auth');
+
 Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->middleware('owneradmin');
+
+Route::get('/satuan/{id}/edit', [SatuanController::class, 'edit'])->middleware('owneradmin');
 
 Route::get('/riwayatharga/{id}', [ProductController::class, 'viewshow'])->middleware('owner');
 

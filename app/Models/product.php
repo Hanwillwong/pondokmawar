@@ -14,7 +14,7 @@ class product extends Model
     protected $guarded = ['id'];
     protected $PrimaryKey = 'id';
     protected $table = 'product';
-    protected $fillable = ['id','nama_barang','merk','supplier','satuan','harga_beli','harga_jual'];
+    protected $fillable = ['id','nama_barang','merk','supplier','satuanid','harga_beli','harga_jual'];
 
     public function riwayatharga()
     {
@@ -28,6 +28,11 @@ class product extends Model
         $this->save();
 
         event(new HargaProdukUpdated($this));
+    }
+
+    public function satuan()
+    {
+        return $this->belongsTo(satuan::class, 'satuanid','id');
     }
 
     public function scopeFilter($query)

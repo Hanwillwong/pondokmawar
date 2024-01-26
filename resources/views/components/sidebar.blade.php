@@ -24,49 +24,44 @@
           <li class="sidebar-item">
             <a class="sidebar-link text-decoration-none" href="/product/create" aria-expanded="false">
               <span>
-                <i class="bi bi-columns-gap"></i>
+                <i class="bi bi-clipboard-plus"></i>
               </span>
               <span class="hide-menu">Tambah Barang</span>
             </a>
           </li>
+          
         @endif
           <li class="sidebar-item">
             <a class="sidebar-link text-decoration-none" href="/product" aria-expanded="false">
               <span>
-                <i class="bi bi-columns-gap"></i>
+                <i class="bi bi-clipboard"></i>
               </span>
               <span class="hide-menu">List Barang</span>
             </a>
           </li>
-          @if (Gate::check('owner'))
-          {{-- <li class="sidebar-item">
-            <a class="sidebar-link text-decoration-none" href="./index.html" aria-expanded="false">
+        @if (Gate::check('admin') || Gate::check('owner'))
+        <li class="sidebar-item">
+          <a class="sidebar-link text-decoration-none" href="/satuan/create" aria-expanded="false">
+            <span>
+              <i class="bi bi-tag"></i>
+            </span>
+            <span class="hide-menu">Tambah Satuan</span>
+          </a>
+        </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link text-decoration-none" href="/satuan" aria-expanded="false">
               <span>
-                <i class="bi bi-journal-text"></i>
+                <i class="bi bi-tags"></i>
               </span>
-              <span class="hide-menu">History</span>
+              <span class="hide-menu">List Satuan</span>
             </a>
-          </li> --}}
+          </li>
+        @endif
+        @if (Gate::check('owner'))
           <li class="nav-small-cap">
             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
             <span class="hide-menu">AUTH</span>
           </li>
-          {{-- <li class="sidebar-item">
-            <a class="sidebar-link text-decoration-none" href="/api/login" aria-expanded="false">
-              <span>
-                <i class="bi bi-box-arrow-in-left"></i>
-              </span>
-              <span class="hide-menu">Login</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a class="sidebar-link text-decoration-none" href="/api/register" aria-expanded="false">
-              <span>
-                <i class="bi bi-person-plus"></i>
-              </span>
-              <span class="hide-menu">Register</span>
-            </a>
-          </li> --}}
           <li class="sidebar-item">
             <a class="sidebar-link text-decoration-none" href="/admin" aria-expanded="false">
               <span>
@@ -75,7 +70,7 @@
               <span class="hide-menu">User</span>
             </a>
           </li>
-          @endif
+        @endif
           <hr width="90%">
           <li class="sidebar-item">
             <i class="bi bi-person-circle fa-lg"></i>

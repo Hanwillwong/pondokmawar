@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('riwayatharga', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('barang_id')->references('id')->on('product')->onDelete('cascade');
+            $table->foreignId('barang_id',2)->references('id')->on('product')->onDelete('cascade');
             // $table->foreignId('barang_id')->references('id')->on('product');
             $table->double('harga_beli');
             $table->double('harga_jual');

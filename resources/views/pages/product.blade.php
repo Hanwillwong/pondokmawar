@@ -81,6 +81,7 @@
         var data = await response.json();
         show(data.data);
     }
+    
 
     // Calling that async function
     getapi(api_url);
@@ -95,7 +96,7 @@
                 @if (Gate::check('admin') || Gate::check('owner'))
                 <td>${item.supplier}</td> 
                 @endif
-                <td>${item.satuan}</td>		 
+                <td>${item.nama_satuan}</td>		 
                 @if (Gate::check('admin') || Gate::check('owner'))
                 <td>${item.harga_beli}</td>		 
                 @endif

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\product;
+use App\Models\satuan;
 use App\Models\RiwayatHarga;
 use Illuminate\Http\Request;
 use App\Events\HargaProdukUpdated;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class ProductController extends Controller
@@ -21,12 +23,15 @@ class ProductController extends Controller
         $search = $request->query('search'); // Ambil nilai pencarian dari query string
 
         // Lakukan proses pencarian sesuai kebutuhan
-        $products = Product::when($search, function ($query) use ($search) {
+        $products = DB::table('product')
+        ->leftJoin('satuan', 'product.satuanid', '=', 'satuan.id')
+        ->select('product.*', 'satuan.nama as nama_satuan')
+        ->when($search, function ($query, $search) {
             return $query->where('nama_barang', 'like', '%' . $search . '%')
                         ->orwhere('supplier', 'like', '%' . $search . '%')
                         ->orwhere('merk', 'like', '%' . $search . '%');
         })->get();
-
+        
         return response()->json([
             'data' => $products,
             'message' => 'Data produk berhasil diambil',
@@ -36,16 +41,21 @@ class ProductController extends Controller
 
     public function viewindex(Request $request)
     {
-        // return view('pages.product', [
-        //     // "products" => product::latest()->filter()->paginate(10)
-            
-        // ]);
             $search = $request->query('search'); // Ambil nilai pencarian dari query string
 
             // Lakukan proses pencarian sesuai kebutuhan
 
-            return view('pages.product',[
-                "product" => product::filter()
+            $products = DB::table('product')
+                ->leftJoin('satuan', 'product.satuanid', '=', 'satuan.id')
+                ->select('product.*', 'satuan.nama as nama_satuan')
+                ->when($search, function ($query, $search) {
+                    // Jika ada pencarian, tambahkan kondisi pencarian ke query
+                    return $query->where('product.nama_barang', 'LIKE', '%' . $search . '%');
+                })
+                ->get();
+
+            return view('pages.product', [
+                "products" => $products
             ]);
     }
 
@@ -56,7 +66,8 @@ class ProductController extends Controller
     public function create()
     {
         return view('pages.createproduct',[
-            'product' => Product::all()
+            'product' => Product::all(),
+            'satuan' => satuan::all()
         ]);
     }
 
@@ -67,7 +78,7 @@ class ProductController extends Controller
     {
         $validatedData = $request->validate([
             'nama_barang' => 'required',
-            'satuan' => 'required',
+            'satuanid' => 'required',
             'supplier' => 'required',
             'merk' => 'required',
             'harga_beli' => 'required',
@@ -165,7 +176,8 @@ class ProductController extends Controller
     public function edit(Request $request ,$id)
     {
         $product = Product::find($id);
-        return view('pages.editproduct', compact('product'));
+        $satuan = satuan::all();
+        return view('pages.editproduct', compact('product','satuan'));
     }
 
     /**
@@ -175,7 +187,7 @@ class ProductController extends Controller
     {
         $validatedData = $request->validate([
             'nama_barang' => 'required',
-            'satuan' => 'required',
+            'satuanid' => 'required',
             'supplier' => 'required',
             'merk' => 'required',
             'harga_beli' => 'required|numeric',

@@ -32,11 +32,15 @@
                 <input type="text" class="form-control @error ('suppluer') is-invalid @enderror" name="supplier" id="supplier" placeholder="Supplier" value="{{ old('supplier', $product->supplier) }}">
             </div>
             <div class="form-group mt-3">
-                <label for="satuan">Satuan</label>
-                <select class="custom-select form-control" name="satuan" id="satuan">
-                    <option value="pcs" {{ $product->satuan == 'pcs' ? 'selected' : '' }}>Pcs</option>
-                    <option value="koli" {{ $product->satuan == 'koli' ? 'selected' : '' }}>Koli</option>
-                    <option value="karung" {{ $product->satuan == 'karung' ? 'selected' : '' }}>Karung</option>
+                <label for="satuanid">Satuan</label>
+                <select class="custom-select form-control" name="satuanid" id="satuanid">
+                    @foreach ($satuan as $satuan)
+                        @if (old('satuanid', $product->satuanid)==$satuan->id)
+                            <option value="{{ $satuan->id }}" selected>{{ $satuan->nama }}</option>
+                        @else
+                            <option value="{{ $satuan->id }}">{{ $satuan->nama }}</option>
+                        @endif
+                    @endforeach  
                 </select>
             </div>
             <div class="form-group mt-3">

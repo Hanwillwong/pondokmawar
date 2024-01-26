@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RiwayathargaController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SatuanController;
 
 
 /*
@@ -47,6 +48,13 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/product', [ProductController::class, 'index'])->middleware('auth');
 Route::get('/product/create', [ProductController::class, 'create'])->middleware('owneradmin');
 Route::post('/product', [ProductController::class, 'store'])->middleware('owneradmin');
+
+Route::get('/satuan', [SatuanController::class, 'index'])->middleware('auth');
+Route::get('/satuan/create', [SatuanController::class, 'create'])->middleware('owneradmin');
+Route::post('/satuan', [SatuanController::class, 'store'])->middleware('owneradmin');
+
+Route::put('/satuan/{id}', [SatuanController::class, 'update'])->middleware('owneradmin');
+Route::delete('/satuan/{id}', [SatuanController::class, 'destroy'])->middleware('owneradmin');
 
 Route::put('/product/{id}', [ProductController::class, 'update'])->middleware('owneradmin');
 Route::delete('/product/{id}', [ProductController::class, 'destroy'])->middleware('owneradmin');
