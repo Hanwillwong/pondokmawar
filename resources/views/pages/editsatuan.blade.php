@@ -13,15 +13,15 @@
     <div class="col-lg-12 d-flex align-items-stretch">
       <div class="card w-100">
         <div class="card-header">
-            <h3 class="card-title mt-2">Edit User</h3>
+            <h3 class="card-title mt-2">Edit Satuan</h3>
         </div>
         <form action="/api/satuan/{{ $satuan->id }}" method="POST">
         @method('put')
         @csrf
         <div class="card-body">
             <div class="form-group">
-                <label for="name">Nama</label>
-                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" value="{{ old('nama', $satuan->nama) }}">
+                <label for="name">Nama Satuan</label>
+                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Satuan" value="{{ old('nama', $satuan->nama) }}">
             </div>
             @error('nama')
                 <div class="text-danger">{{ $message }}</div>

@@ -21,7 +21,7 @@
         <table class="table table-striped text-center mx-auto" id="productTable">
             <thead>
                 <tr>
-                    <td>Nama</td>
+                    <td>Nama Satuan</td>
                     <td colspan="" class="text">Action</td>
                 </tr>
             </thead>

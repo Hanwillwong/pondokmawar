@@ -88,18 +88,14 @@ class ProductController extends Controller
         // Membuat data produk baru
         $product = Product::create($validatedData);
 
-        // Menyebabkan event HargaProdukUpdated dijalankan dengan data produk yang baru dibuat
         event(new HargaProdukUpdated($product));
 
-        // Jika request berasal dari API (dengan header Accept: application/json), kirim respons JSON
         if ($request->wantsJson()) {
             return response()->json([
                 'message' => 'Data berhasil dibuat!',
                 'data' => $product,
             ]);
         }
-
-        // Jika request berasal dari antarmuka pengguna (UI), redirect ke '/product' dengan pesan
         return redirect('/product')->with('success', 'Data berhasil dibuat!');
     }
 

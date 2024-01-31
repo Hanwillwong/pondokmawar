@@ -21,7 +21,7 @@
         <div class="card-body">
             <div class="form-group">
                 <label for="nama">Nama Satuan</label>
-                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Barang" value="{{ old('nama') }}">
+                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Satuan" value="{{ old('nama') }}">
             </div>
             @error('nama')
                 <div class="text-danger">{{ $message }}</div>
